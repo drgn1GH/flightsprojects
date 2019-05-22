@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class FlightController {
@@ -22,21 +23,23 @@ public class FlightController {
 
 
     @GetMapping(value = "/flights/{id}")
-    public Flight getFlightByID(@PathVariable String id) {
-        Flight flightById = flightService.getFlightById(id);
-        return flightById;
+    public ResponseEntity<Flight> getFlightByID(@PathVariable String id) {
+        Optional<Flight> byId = flightService.getFlightById(id);
+
+        if(byId.isPresent()){
+            return new ResponseEntity<>(byId.get(),HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 
-    //returns CREATED for a null object
-    // destination != departure ?
+
     @PutMapping(value = "/flights")
     public ResponseEntity<Flight> updateFlight(@RequestBody Flight flight) {
 
         Flight flightUpdated = flightService.updateFlight(flight);
 
         if (flightUpdated == null) {
-            //da status created pt null objects e.g id 9999
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(flightUpdated,HttpStatus.ACCEPTED);
@@ -57,7 +60,6 @@ public class FlightController {
         return new ResponseEntity<>(flightCreated,HttpStatus.ACCEPTED);
     }
 
-    //some infos messages ?
     @PostMapping(value= "/flights/delete/{id}")
     public ResponseEntity deleteFlight(@PathVariable String id){
         boolean deleted = flightService.deleteFlight(id);

@@ -34,7 +34,7 @@ public class UserService {
     }
 
     public User createUser(User userToBeCreated) {
-        if (!userRepository.findOneByUsername(userToBeCreated.getUsername()).isPresent()) {
+        if (!userRepository.findOneByEmail(userToBeCreated.getEmail()).isPresent()) {
             return userRepository.save(userToBeCreated);
         }
 
@@ -53,5 +53,9 @@ public class UserService {
 
     public Optional<User> getByUsername(String username) {
         return userRepository.findOneByUsername(username);
+    }
+
+    public Optional<User> getByEmail(String email){
+        return userRepository.findOneByEmail(email);
     }
 }

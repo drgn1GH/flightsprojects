@@ -10,15 +10,16 @@ import java.util.Optional;
 
 @Service
 public class FlightService {
+
     @Autowired
     private FlightRepository flightRepository;
 
-    public List<Flight> getFlights(){
+    public List<Flight> getFlights() {
         return flightRepository.findAllByOrderByIdAsc();
     }
 
-    public Flight getFlightById(String id) {
-        return flightRepository.getOne(Long.valueOf(id));
+    public Optional<Flight> getFlightById(String id) {
+        return flightRepository.findById(Long.valueOf(id));
     }
 
     public Flight updateFlight(Flight flight) {
@@ -26,7 +27,7 @@ public class FlightService {
             return null;
         }
 
-        if (flightRepository.findOneById(flight.getId()).isPresent()){
+        if (flightRepository.findById(flight.getId()).isPresent()) {
             return flightRepository.save(flight);
         }
         return null;
@@ -35,17 +36,17 @@ public class FlightService {
 
     //niste not null de setat si dest != depa
     public Flight createFlight(Flight flightToBeCreated) {
-        if(!flightRepository.findOneByName(flightToBeCreated.getName()).isPresent()){
+        if (!flightRepository.findOneByName(flightToBeCreated.getName()).isPresent()) {
             return flightRepository.save(flightToBeCreated);
         }
         return null;
     }
 
 
-    public boolean deleteFlight(String id){
-        Optional<Flight> flight = flightRepository.findOneById(Long.valueOf(id));
+    public boolean deleteFlight(String id) {
+        Optional<Flight> flight = flightRepository.findById(Long.valueOf(id));
 
-        if (flight.isPresent()){
+        if (flight.isPresent()) {
             flightRepository.delete(flight.get());
             return true;
         }

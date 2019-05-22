@@ -21,7 +21,7 @@ import java.util.Date;
 public class FlightsprojectApplication implements CommandLineRunner {
 
 	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
 
 	@Autowired
 	private FlightRepository flightRepository;
@@ -35,21 +35,19 @@ public class FlightsprojectApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		/*User user = new User();
+		User user = new User();
 
 		user.setUsername("mario");
 		user.setPassword("123");
+		user.setPassword("mario@gmail.com");
 
-		User user1 = new User();
 
-		user1.setUsername("user1");
-		user1.setPassword("123");
 
-//		userService.createUser(user);
-		userRepository.save(user);
-		userRepository.save(user1);
+		userService.createUser(user);
+//		userRepository.save(user);
+//		userRepository.save(user1);
 
-		*/
+
 
 		Flight flight = new Flight();
 
@@ -65,8 +63,20 @@ public class FlightsprojectApplication implements CommandLineRunner {
 
 		Reservation reservation = new Reservation();
 
-		reservation.setDateTime(new Date());
-		reservation.setFlight(flight1);
-		reservationService.createReservation("andrei", reservation);
+//		reservation.setDateTime(new Date());
+//		reservation.setFlight(flight1);
+//		reservationService.createReservation("tudor", reservation);
+
+//		Reservation reservation2 = new Reservation();
+//
+//		Flight flight2 = new Flight();
+//		flight2.setDeparture(Departure.BUCURESTI);
+//		flight2.setDeparture(Departure.MADRID);
+//
+//		Reservation reservation3 = new Reservation();
+//		reservation2.setDateTime(new Date());
+//		reservation2.setFlight(flight2);
+//		reservationService.createReservation("tudor", reservation3);
+
 	}
 }

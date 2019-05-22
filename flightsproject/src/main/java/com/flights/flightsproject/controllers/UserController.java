@@ -22,10 +22,13 @@ public class UserController {
     }
 
     @GetMapping(value = "/users/{id}")
-    public User getUserByID(@PathVariable String id){
-        Optional<User> userById = userService.getUserById(id);
+    public ResponseEntity<User> getUserByID(@PathVariable String id){
+        Optional<User> byId = userService.getUserById(id);
 
-        return userById.orElse(null);
+        if(byId.isPresent()){
+            return new ResponseEntity<>(byId.get(),HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
 
@@ -45,7 +48,7 @@ public class UserController {
         User userUpdated = userService.updateUser(user);
 
         if (userUpdated == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(userUpdated, HttpStatus.ACCEPTED);
